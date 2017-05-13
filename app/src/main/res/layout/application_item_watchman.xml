@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?><android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:elevation="@dimen/cardview_default_elevation"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/list_card"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <LinearLayout
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/item_id"
+            android:layout_alignParentLeft="true"
+            android:background="@color/colorAccent"
+            tools:text="sdgjdfvbfdgvefkw812654"
+            android:textColor="@android:color/white"
+            android:paddingRight="4dp"
+            android:paddingLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/first_name"
+                android:textColor="@android:color/darker_gray"
+                android:text="First Name"/>
+            <TextView
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:id="@+id/last_name"
+                android:textStyle="italic"
+                android:textColor="@android:color/darker_gray"
+                tools:text="Last Name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Button
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginLeft="50dp"
+                android:text="OUT"
+                android:id="@+id/out"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@android:color/darker_gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Roll No"/>
+
+
+            <TextView
+                android:layout_marginLeft="102dp"
+                android:id="@+id/roll_no"
+                android:textStyle="italic"
+                android:textColor="@android:color/darker_gray"
+                tools:text="13522"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginLeft="50dp"
+                android:text="IN"
+                android:id="@+id/in"/>
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

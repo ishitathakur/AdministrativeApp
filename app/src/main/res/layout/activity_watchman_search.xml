@@ -9,4 +9,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.ishita.administrativeapp.WatchmanSearchActivity">
 
+    <EditText
+        android:layout_width="200dp"
+        android:layout_marginTop="100dp"
+        android:id="@+id/roll_no"
+        android:hint="Enter The Roll No."
+        android:layout_height="40dp" />
+    <Button
+
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="Search"
+        android:id="@+id/search"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/roll_no" />
 </RelativeLayout>
