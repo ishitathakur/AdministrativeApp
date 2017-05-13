@@ -28,16 +28,12 @@ public class MainActivity extends AppCompatActivity {
 
     private Button login;
     private EditText userId;
-    private Button register;
-    private TextView forgot;
     private FloatingActionButton fab;
     private EditText roll_no;
     private EditText password;
-    boolean isPassword;
-    boolean isRollNo;
-    Toast loadToast;
+    //Toast loadToast;
     PersonalData personalData;
-    private String URL="https://eoutpass.herokuapp.com/login";
+    private final String URL="https://eoutpass.herokuapp.com/login";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         personalData = new PersonalData(this);
         userId=(EditText)findViewById(R.id.userId);
         password=(EditText)findViewById(R.id.password);
-        loadToast= new Toast(this);
+        //loadToast= new Toast(this);
 
         if (getIntent().getBooleanExtra("EXIT", false))
         {
@@ -58,15 +54,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-               // isRollNo = Validate.checkData(roll_no.getText().toString());
+                //isRollNo = Validate.checkData(roll_no.getText().toString());
                 //isPassword = Validate.checkData(password.getText().toString());
-                String UserId = userId.getText().toString();
+                final String UserId = userId.getText().toString();
                 String Password = password.getText().toString();
 
-                if (userId.equals("00001") && Password.equals("wardenpgh")) {
-                    if(true){
+                    if(null!=UserId && null != Password){
                     HashMap<String, String> param  = new HashMap<String, String>();
-                    //loadToast.show();
+                   // loadToast.show();
                     param.put("roll_no", UserId);
                     param.put("password", Password);
                     JSONObject obj = new JSONObject(param);
@@ -79,20 +74,26 @@ public class MainActivity extends AppCompatActivity {
                                 String status = jsonObject.getString("status");
 
                                 if (status.equals("LOGIN")) {
-
                                     String token = jsonObject.getString("data");
                                     personalData.SaveToken(token);
                                     personalData.SaveData(true);
-                                    Intent i = new Intent(getApplicationContext(), AttendantActivity.class);
+                                    Intent i = null;
+                                    if(UserId.equals("10001") || UserId.equals("10002")){
+                                        i = new Intent(getApplicationContext(), AttendantActivity.class);
+                                    }else if (UserId.equals("00001") || UserId.equals("00002")){
+                                        i = new Intent(getApplicationContext(), WardenActivity.class);
+                                    }else{
+                                        i = new Intent(getApplicationContext(), WatchmanActivity.class);
+                                    }
                                     startActivity(i);
                                     finish();
-                                }
-                              /*  else
-                                 {
-                                   loadToast.error();
+                                }  else{
+                                   //loadToast.cancel();
                                     Toast.makeText(getApplicationContext(), "Not Reachable", Toast.LENGTH_SHORT).show();
-                                }*/
+                                }
                             } catch (JSONException e) {
+                                //loadToast.cancel();
+                                Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
                             }
                         }
@@ -104,12 +105,12 @@ public class MainActivity extends AppCompatActivity {
                             {
                                 if(networkResponse.statusCode==401)
                                 {
-                                //    loadToast.error();
+                                    //loadToast.cancel();
                                     Toast.makeText(getApplicationContext(),"Roll No./ Password Incorrect", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             else {
-                              //  loadToast.error();
+                                //loadToast.cancel();
                                 Toast.makeText(getApplicationContext(), "No Connection", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -119,76 +120,11 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Fields cannot be empty", Toast.LENGTH_SHORT).show();
                 }
 
-            }
-        });
+
+        }
 
 
-
-        login_warden.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // isRollNo = Validate.checkData(roll_no.getText().toString());
-                //isPassword = Validate.checkData(password.getText().toString());
-                String Roll_no = roll_no.getText().toString();
-                String Password = password.getText().toString();
-                if (true) {
-                    HashMap<String, String> param = new HashMap<String, String>();
-                    //loadToast.show();
-                    param.put("roll_no", Roll_no);
-                    param.put("password", Password);
-                    JSONObject obj = new JSONObject(param);
-                    RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                    JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL, obj, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject jsonObject) {
-                            try {
-                                Log.d("Check",jsonObject.toString());
-                                String status = jsonObject.getString("status");
-
-                                if (status.equals("LOGIN")) {
-
-                                    String token = jsonObject.getString("data");
-                                    personalData.SaveToken(token);
-                                    personalData.SaveData(true);
-                                    Intent i = new Intent(getApplicationContext(), WardenActivity.class);
-                                    startActivity(i);
-                                    finish();
-                                }
-                              /*  else
-                                 {
-                                   loadToast.error();
-                                    Toast.makeText(getApplicationContext(), "Not Reachable", Toast.LENGTH_SHORT).show();
-                                }*/
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            NetworkResponse networkResponse= volleyError.networkResponse;
-                            if(networkResponse!=null)
-                            {
-                                if(networkResponse.statusCode==401)
-                                {
-                                    //    loadToast.error();
-                                    Toast.makeText(getApplicationContext(),"Roll No./ Password Incorrect", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                            else {
-                                //  loadToast.error();
-                                Toast.makeText(getApplicationContext(), "No Connection", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                    queue.add(req);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Fields cannot be empty", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-
+    });
     }
 }
 
