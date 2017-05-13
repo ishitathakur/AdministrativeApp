@@ -17,6 +17,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import net.steamcrafted.loadtoast.LoadToast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,26 +35,25 @@ public class WardenActivity extends AppCompatActivity {
     Button Reject;
     SwipeRefreshLayout mSwipeRefreshLayout;
     PersonalData personalData;
-    String GET_URL="https://eoutpass.herokuapp.com/unchecked_hw";
-    // private  LoadToast loadToast;
+    private final String GET_URL="https://eoutpass.herokuapp.com/unchecked_hw";
+    private LoadToast loadToast;
     ArrayList<Application> items = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendant);
         list = (ListView) findViewById(R.id.list);
-        adapter = new WardenAdapter(getApplicationContext(), items);
+        loadToast = new LoadToast(this);
+        adapter = new WardenAdapter(getApplicationContext(), items,loadToast);
         list.setAdapter(adapter);
-        Accept=(Button)findViewById(R.id.accept);
-        Reject=(Button)findViewById(R.id.reject);
         personalData =new PersonalData(this);
         fetchData();
     }
     public void fetchData() {
         Log.v("check","123");
         items.clear();
-        //  loadToast.setText("Loading");
-        // loadToast.show();
+        loadToast.setText("Loading");
+        loadToast.show();
 
         Log.d("check", "12345");
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
@@ -62,7 +63,7 @@ public class WardenActivity extends AppCompatActivity {
                 try {
                     Log.d("JSON", response.toString());
                     if(response.getString("status").equals("DATABASE FETCHED")) {
-                        //loadToast.success();
+                        loadToast.success();
                         JSONArray array = response.getJSONArray("data");
                         if(array.length()==1)
                         {
@@ -102,9 +103,8 @@ public class WardenActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        // loadToast.error();
+                        loadToast.error();
                         Toast.makeText(getApplicationContext(),"No Applications", Toast.LENGTH_SHORT).show();
-                        onBackPressed();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -114,7 +114,7 @@ public class WardenActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // loadToast.error();
+                loadToast.error();
                 Toast.makeText(getApplicationContext(), "No Connection", Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }
