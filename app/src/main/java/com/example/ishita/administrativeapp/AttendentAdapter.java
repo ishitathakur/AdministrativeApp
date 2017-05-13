@@ -19,6 +19,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.android.volley.AuthFailureError;
 
+import net.steamcrafted.loadtoast.LoadToast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,17 +29,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MyAdapter extends BaseAdapter {
+public class AttendentAdapter extends BaseAdapter {
     Context c;
     ArrayList<Application> items = new ArrayList<>();
     PersonalData  personalData;
-
+    private LoadToast loadToast;
     public static final String URL="https://eoutpass.herokuapp.com/unchecked_ha";
 
-    public MyAdapter(Context c, ArrayList<Application> items) {
+    public AttendentAdapter(Context c, ArrayList<Application> items,LoadToast toast) {
         this.c = c;
         this.items = items;
         this.personalData = new PersonalData(c);
+        this.loadToast = toast;
     }
     @Override
     public int getCount() {
@@ -66,11 +69,10 @@ public class MyAdapter extends BaseAdapter {
         TextView last_name = (TextView) row.findViewById(R.id.last_name);
         TextView roll_no = (TextView) row.findViewById(R.id.last_name);
         TextView id = (TextView) row.findViewById(R.id.item_id);
-        Button accept=(Button)row.findViewById(R.id.accept);
-        Button reject=(Button)row.findViewById(R.id.reject);
+        final Button accept=(Button)row.findViewById(R.id.accept);
 
         id.setText("" + items.get(position).getId());
-         first_name.setText("" + items.get(position).getFirstName());
+        first_name.setText("" + items.get(position).getFirstName());
         last_name.setText(" " + items.get(position).getLastName());
         roll_no.setText(" " + items.get(position).getLastName());
 
@@ -97,7 +99,7 @@ public class MyAdapter extends BaseAdapter {
                 JSONArray array = new JSONArray();
 
                             HashMap<String, String> param = new HashMap<String, String>();
-                       //     loadToast.show();
+                            loadToast.show();
                             param.put("uid", uid);
 
 
@@ -110,15 +112,16 @@ public class MyAdapter extends BaseAdapter {
                                     try {
                                         Log.d("Check",jsonObject.toString());
                                         String status = jsonObject.getString("status");
-
-                                        if (status.equals("LOGIN")) {
-                                            //  loadToast.success();
+                                        if (status.equals("Updated")) {
+                                            loadToast.success();
+                                            Toast.makeText(c, "Sucess", Toast.LENGTH_SHORT).show();
+                                            accept.setText("Forwarded");
+                                            accept.setEnabled(false);
+                                            notifyDataSetChanged();
+                                        } else{
+                                            loadToast.error();
+                                            Toast.makeText(c,"No Applications for today",Toast.LENGTH_SHORT).show();
                                         }
-                              /*  else
-                                 {
-                                   loadToast.error();
-                                    Toast.makeText(getApplicationContext(), "Not Reachable", Toast.LENGTH_SHORT).show();
-                                }*/
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -131,12 +134,12 @@ public class MyAdapter extends BaseAdapter {
                                     {
                                         if(networkResponse.statusCode==401)
                                         {
-                                            // loadToast.error();
+                                            loadToast.error();
                                             Toast.makeText(c,"Roll No./ Password Incorrect", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                     else {
-                                        //loadToast.error();
+                                        loadToast.error();
                                         Toast.makeText(c, "No Connection", Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -154,72 +157,6 @@ public class MyAdapter extends BaseAdapter {
 
                     }
                 });
-
-        reject.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //yahan kaam kareinge
-                    Application bean  = items.get(position);
-                    String uid = bean.getId();
-                    String status = "false";
-                    JSONArray array = new JSONArray();
-
-                    HashMap<String, String> param = new HashMap<String, String>();
-                    //     loadToast.show();
-                    param.put("uid", uid);
-                    param.put("status", status);
-
-                    JSONObject obj = new JSONObject(param);
-                    array.put(obj);
-                    RequestQueue queue = Volley.newRequestQueue(c);
-                    ModifiedJsonArrayRequest req = new ModifiedJsonArrayRequest(URL,array,new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject jsonObject) {
-                            try {
-                                Log.d("Check",jsonObject.toString());
-                                String status = jsonObject.getString("status");
-
-                                if (status.equals("LOGIN")) {
-                                    //  loadToast.success();
-                                }
-                              /*  else
-                                 {
-                                   loadToast.error();
-                                    Toast.makeText(getApplicationContext(), "Not Reachable", Toast.LENGTH_SHORT).show();
-                                }*/
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            NetworkResponse networkResponse= volleyError.networkResponse;
-                            if(networkResponse!=null)
-                            {
-                                if(networkResponse.statusCode==401)
-                                {
-                                    // loadToast.error();
-                                    Toast.makeText(c,"Roll No./ Password Incorrect", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                            else {
-                                //loadToast.error();
-                                Toast.makeText(c, "No Connection", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                    ){
-                        @Override
-                        public Map<String,String> getHeaders() throws AuthFailureError {
-                            Map<String,String> map = new HashMap<>();
-                            map.put("Authorization","token " + personalData.getToken());
-                            return map;
-                        }
-
-                    };
-                    queue.add(req);
-                }});
 
         return row;
     }
