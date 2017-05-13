@@ -144,7 +144,6 @@ public class WardenAdapter extends BaseAdapter {
                     if (status.equals("Updated")) {
                         String data = jsonObject.getString("data");
                         if(data.equals("ACCEPTED")){
-
                             loadToast.success();
                             acceptButton.setEnabled(false);
                             acceptButton.setText("Accepted");

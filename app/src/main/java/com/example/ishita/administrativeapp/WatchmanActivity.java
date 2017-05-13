@@ -1,5 +1,6 @@
 package com.example.ishita.administrativeapp;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
+import net.steamcrafted.loadtoast.LoadToast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,44 +35,46 @@ public class WatchmanActivity extends AppCompatActivity {
     WatchmanAdapter adapter;
     ListView list;
     SwipeRefreshLayout mSwipeRefreshLayout;
-
-
- //   private  LoadToast loadToast;
+     private LoadToast loadToast;
     ArrayList<Application> items = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_watchman);
         personalData =new PersonalData(this);
-
-      //  loadToast=new LoadToast(this);
-      //  loadToast.setTranslationY(150);
-      //  loadToast.setBackgroundColor(Color.WHITE).setProgressColor(Color.parseColor("#FF4081")).setTextColor(Color.BLACK);
+        loadToast=new LoadToast(this);
+        loadToast.setTranslationY(150);
+         loadToast.setBackgroundColor(Color.WHITE).setProgressColor(Color.parseColor("#FF4081")).setTextColor(Color.BLACK);
         Bundle bundle = getIntent().getExtras();
-        GET_URL = bundle.toString();
-
+        GET_URL = (String)bundle.get("GET_URL");
         list = (ListView) findViewById(R.id.list);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
-        adapter = new WatchmanAdapter(getApplicationContext(), items);
+        adapter = new WatchmanAdapter(this, items,loadToast,GET_URL);
         list.setAdapter(adapter);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refresh();
+
+                    refresh();
+
             }
         });
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorAccent, R.color.colorAccent);
+        mSwipeRefreshLayout.setRefreshing(true);
         fetchData();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
     private void refresh() {
+        mSwipeRefreshLayout.setRefreshing(true);
         fetchData();
         mSwipeRefreshLayout.setRefreshing(false);
     }
     public void fetchData() {
         Log.v("check","123");
         items.clear();
-        //  loadToast.setText("Loading");
-        // loadToast.show();
+        loadToast.setText("Loading");
+        loadToast.show();
 
         Log.d("check", "12345");
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
@@ -79,7 +84,7 @@ public class WatchmanActivity extends AppCompatActivity {
                 try {
                     Log.d("JSON", response.toString());
                     if(response.getString("status").equals("DATABASE FETCHED")) {
-                        //loadToast.success();
+                        loadToast.success();
                         JSONArray array = response.getJSONArray("data");
                         if(array.length()==1)
                         {
@@ -119,7 +124,7 @@ public class WatchmanActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        // loadToast.error();
+                        loadToast.error();
                         Toast.makeText(getApplicationContext(),"No Applications", Toast.LENGTH_SHORT).show();
                         onBackPressed();
                     }
@@ -131,7 +136,7 @@ public class WatchmanActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // loadToast.error();
+                loadToast.error();
                 Toast.makeText(getApplicationContext(), "No Connection", Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }

@@ -14,10 +14,14 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
+import net.steamcrafted.loadtoast.LoadToast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,13 +38,15 @@ public class WatchmanAdapter extends BaseAdapter{
     Context c;
     ArrayList<Application> items = new ArrayList<>();
     PersonalData  personalData;
+    LoadToast loadToast;
+    private String URL=null;
 
-    public static final String URL="https://eoutpass.herokuapp.com/application/";
-
-    public WatchmanAdapter(Context c, ArrayList<Application> items) {
+    public WatchmanAdapter(Context c, ArrayList<Application> items,LoadToast toast, String url) {
         this.c = c;
         this.items = items;
         this.personalData = new PersonalData(c);
+        this.loadToast = toast;
+        this.URL = url;
     }
     @Override
     public int getCount() {
@@ -69,8 +75,8 @@ public class WatchmanAdapter extends BaseAdapter{
         TextView last_name = (TextView) row.findViewById(R.id.last_name);
         TextView roll_no = (TextView) row.findViewById(R.id.last_name);
         TextView id = (TextView) row.findViewById(R.id.item_id);
-        Button out=(Button)row.findViewById(R.id.out);
-        Button in=(Button)row.findViewById(R.id.in);
+        final Button out=(Button)row.findViewById(R.id.out);
+        final Button in=(Button)row.findViewById(R.id.in);
 
         id.setText("" + items.get(position).getId());
         first_name.setText("" + items.get(position).getFirstName());
@@ -93,139 +99,94 @@ public class WatchmanAdapter extends BaseAdapter{
         out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //yahan kaam kareinge
-                Application bean  = items.get(position);
-                String uid = bean.getId();
-                String status = "true";
-                JSONArray array = new JSONArray();
-
-                HashMap<String, String> param = new HashMap<String, String>();
-                //     loadToast.show();
-                param.put("uid", uid);
-                param.put("status", status);
-
-
-                JSONObject obj = new JSONObject(param);
-                array.put(obj);
-                RequestQueue queue = Volley.newRequestQueue(c);
-                ModifiedJsonArrayRequest req = new ModifiedJsonArrayRequest(URL,array,new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        try {
-                            Log.d("Check",jsonObject.toString());
-                            String status = jsonObject.getString("status");
-
-                            if (status.equals("LOGIN")) {
-                                //  loadToast.success();
-                            }
-                              /*  else
-                                 {
-                                   loadToast.error();
-                                    Toast.makeText(getApplicationContext(), "Not Reachable", Toast.LENGTH_SHORT).show();
-                                }*/
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        NetworkResponse networkResponse= volleyError.networkResponse;
-                        if(networkResponse!=null)
-                        {
-                            if(networkResponse.statusCode==401)
-                            {
-                                // loadToast.error();
-                                Toast.makeText(c,"Roll No./ Password Incorrect", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        else {
-                            //loadToast.error();
-                            Toast.makeText(c, "No Connection", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-                ){
-                    @Override
-                    public Map<String,String> getHeaders() throws AuthFailureError {
-                        Map<String,String> map = new HashMap<>();
-                        map.put("Authorization","token " + personalData.getToken());
-                        return map;
-                    }
-
-                };
-                queue.add(req);
+                requestTheServer(position,in,out,"0");
 
             }
         });
 
         in.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                //yahan kaam kareinge
-                Application bean  = items.get(position);
-                String uid = bean.getId();
-                String status = "false";
-                JSONArray array = new JSONArray();
-
-                HashMap<String, String> param = new HashMap<String, String>();
-                //     loadToast.show();
-                param.put("uid", uid);
-                param.put("status", status);
-
-                JSONObject obj = new JSONObject(param);
-                array.put(obj);
-                RequestQueue queue = Volley.newRequestQueue(c);
-                ModifiedJsonArrayRequest req = new ModifiedJsonArrayRequest(URL,array,new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        try {
-                            Log.d("Check",jsonObject.toString());
-                            String status = jsonObject.getString("status");
-
-                            if (status.equals("LOGIN")) {
-                                //  loadToast.success();
-                            }
-                              /*  else
-                                 {
-                                   loadToast.error();
-                                    Toast.makeText(getApplicationContext(), "Not Reachable", Toast.LENGTH_SHORT).show();
-                                }*/
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        NetworkResponse networkResponse= volleyError.networkResponse;
-                        if(networkResponse!=null)
-                        {
-                            if(networkResponse.statusCode==401)
-                            {
-                                // loadToast.error();
-                                Toast.makeText(c,"Roll No./ Password Incorrect", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        else {
-                            //loadToast.error();
-                            Toast.makeText(c, "No Connection", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-                ){
-                    @Override
-                    public Map<String,String> getHeaders() throws AuthFailureError {
-                        Map<String,String> map = new HashMap<>();
-                        map.put("Authorization","token " + personalData.getToken());
-                        return map;
-                    }
-
-                };
-                queue.add(req);
+            public void onClick(View v) {requestTheServer(position,in,out,"2");
             }});
 
         return row;
+    }
+
+    /**
+     * This function will request the server with the accept or reject response
+     * @param position
+     * @param inButton
+     * @param outButton
+     * @param status
+     */
+    private void requestTheServer(int position, final Button inButton, final Button outButton, String status){
+        Application bean  = items.get(position);
+        loadToast.show();
+        String uid = bean.getId();
+
+        HashMap<String, String> param = new HashMap<String, String>();
+
+        param.put("uid", uid);
+        param.put("status", status);
+
+        JSONObject obj = new JSONObject(param);
+        RequestQueue queue = Volley.newRequestQueue(c);
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.PUT,URL,obj,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    Log.d("Check",jsonObject.toString());
+                    String status = jsonObject.getString("status");
+                    if (status.equals("UPDATED")) {
+                        String data = jsonObject.getString("data");
+                        if(data.equals("Status = 2")){
+                            loadToast.success();
+                            outButton.setEnabled(false);
+                            outButton.setText("Outside");
+                            notifyDataSetChanged();
+                        }else if(data.equals("Status = 3")){
+                            loadToast.success();
+                            inButton.setEnabled(false);
+                            inButton.setText("Inside");
+                            notifyDataSetChanged();
+                        }
+                    }
+                    else {
+                        loadToast.error();
+                        Toast.makeText(c, "Not Reachable", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                NetworkResponse networkResponse= volleyError.networkResponse;
+                if(networkResponse!=null)
+                {
+                    if(networkResponse.statusCode==401)
+                    {
+                        loadToast.error();
+                        Toast.makeText(c,"Not authenticated", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    loadToast.error();
+                    Toast.makeText(c, "No Connection", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        ){
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String,String> map = new HashMap<>();
+                map.put("Authorization","token " + personalData.getToken());
+                return map;
+            }
+
+        };
+        queue.add(req);
     }
 
 }
