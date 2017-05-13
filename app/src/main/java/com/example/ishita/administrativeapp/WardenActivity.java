@@ -43,12 +43,28 @@ public class WardenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendant);
         list = (ListView) findViewById(R.id.list);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                refresh();
+
+            }
+        });
         loadToast = new LoadToast(this);
         adapter = new WardenAdapter(getApplicationContext(), items,loadToast);
         list.setAdapter(adapter);
         personalData =new PersonalData(this);
         fetchData();
     }
+
+    private void refresh() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        fetchData();
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
     public void fetchData() {
         Log.v("check","123");
         items.clear();

@@ -48,29 +48,41 @@ public class AttendantActivity extends AppCompatActivity implements NavigationVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendant);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-       // setSupportActionBar(toolbar);
-     //   toolbar.setTitleTextColor(Color.WHITE);
+         // setSupportActionBar(toolbar);
+         //   toolbar.setTitleTextColor(Color.WHITE);
 
         loadToast=new LoadToast(this);
         loadToast.setTranslationY(150);
         loadToast.setBackgroundColor(Color.WHITE).setProgressColor(Color.parseColor("#FF4081")).setTextColor(Color.BLACK);
-        if (getIntent().getBooleanExtra("EXIT", false))
-        {
-            finish();
-        }
         loadToast = new LoadToast(this);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                refresh();
+
+            }
+        });
         list = (ListView) findViewById(R.id.list);
         adapter = new AttendentAdapter(getApplicationContext(), items,loadToast);
         list.setAdapter(adapter);
         personalData =new PersonalData(this);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        //drawer.setDrawerListener(toggle);
+        //toggle.syncState();
+        //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //navigationView.setNavigationItemSelectedListener(this);
         fetchData();
     }
+
+    private void refresh() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        fetchData();
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
     public void fetchData() {
         items.clear();
         loadToast.setText("Loading");
