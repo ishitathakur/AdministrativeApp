@@ -1,14 +1,14 @@
 package com.example.ishita.administrativeapp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
@@ -30,8 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button login;
     private EditText userId;
-    private FloatingActionButton fab;
-    private EditText roll_no;
+
     private EditText password;
     LoadToast loadToast;
     PersonalData personalData;
@@ -41,6 +40,18 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    //    setSupportActionBar(toolbar);
+       // toolbar.setTitleTextColor(Color.WHITE);
+        loadToast=new LoadToast(this);
+        loadToast.setTranslationY(150);
+        loadToast.setBackgroundColor(Color.WHITE).setProgressColor(Color.parseColor("#FF4081")).setTextColor(Color.BLACK);
+       // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+       // ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+      //  drawer.setDrawerListener(toggle);
+       // toggle.syncState();
+       // NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+       // navigationView.setNavigationItemSelectedListener(this);
         personalData = new PersonalData(this);
         userId=(EditText)findViewById(R.id.userId);
         password=(EditText)findViewById(R.id.password);
@@ -86,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                                     }else if (UserId.equals("00001") || UserId.equals("00002")){
                                         i = new Intent(getApplicationContext(), WardenActivity.class);
                                     }else{
-                                        i = new Intent(getApplicationContext(), WatchmanActivity.class);
+                                        i = new Intent(getApplicationContext(), WatchmanSearchActivity.class);
                                     }
                                     startActivity(i);
                                     finish();
@@ -129,5 +140,6 @@ public class MainActivity extends AppCompatActivity {
 
     });
     }
+
 }
 
