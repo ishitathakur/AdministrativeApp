@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginLeft="50dp"
-                android:text="Accept"
+                android:text="Forward"
                 android:id="@+id/accept"/>
         </LinearLayout>
         <LinearLayout
@@ -71,14 +71,6 @@
                 tools:text="13522"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-            <Button
-
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginLeft="50dp"
-                android:text="Reject"
-                android:id="@+id/reject"/>
         </LinearLayout>
 
 

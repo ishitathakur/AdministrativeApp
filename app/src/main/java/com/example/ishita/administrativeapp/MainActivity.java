@@ -19,6 +19,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import net.steamcrafted.loadtoast.LoadToast;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private EditText roll_no;
     private EditText password;
-    //Toast loadToast;
+    LoadToast loadToast;
     PersonalData personalData;
     private final String URL="https://eoutpass.herokuapp.com/login";
 
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         personalData = new PersonalData(this);
         userId=(EditText)findViewById(R.id.userId);
         password=(EditText)findViewById(R.id.password);
-        //loadToast= new Toast(this);
+        loadToast= new LoadToast(this);
 
         if (getIntent().getBooleanExtra("EXIT", false))
         {
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if(null!=UserId && null != Password){
                     HashMap<String, String> param  = new HashMap<String, String>();
-                   // loadToast.show();
+                    loadToast.show();
                     param.put("roll_no", UserId);
                     param.put("password", Password);
                     JSONObject obj = new JSONObject(param);
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 if (status.equals("LOGIN")) {
                                     String token = jsonObject.getString("data");
+                                    loadToast.success();
                                     personalData.SaveToken(token);
                                     personalData.SaveData(true);
                                     Intent i = null;
@@ -88,11 +91,11 @@ public class MainActivity extends AppCompatActivity {
                                     startActivity(i);
                                     finish();
                                 }  else{
-                                   //loadToast.cancel();
+                                   loadToast.error();
                                     Toast.makeText(getApplicationContext(), "Not Reachable", Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
-                                //loadToast.cancel();
+                                loadToast.error();
                                 Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
                             }
@@ -105,12 +108,12 @@ public class MainActivity extends AppCompatActivity {
                             {
                                 if(networkResponse.statusCode==401)
                                 {
-                                    //loadToast.cancel();
+                                    loadToast.error();
                                     Toast.makeText(getApplicationContext(),"Roll No./ Password Incorrect", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             else {
-                                //loadToast.cancel();
+                                loadToast.error();
                                 Toast.makeText(getApplicationContext(), "No Connection", Toast.LENGTH_SHORT).show();
                             }
                         }

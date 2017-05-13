@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -25,35 +24,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-//import net.steamcrafted.loadtoast.LoadToast;
+import net.steamcrafted.loadtoast.LoadToast;
 
 public class AttendantActivity extends AppCompatActivity {
-    MyAdapter adapter;
+    AttendentAdapter adapter;
     ListView list;
-    Button Accept;
-    Button Reject;
     SwipeRefreshLayout mSwipeRefreshLayout;
     PersonalData personalData;
-    String GET_URL="https://eoutpass.herokuapp.com/unchecked_ha";
-   // private  LoadToast loadToast;
+    private final String GET_URL="https://eoutpass.herokuapp.com/unchecked_ha";
+    private  LoadToast loadToast;
     ArrayList<Application> items = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendant);
+        if (getIntent().getBooleanExtra("EXIT", false))
+        {
+            finish();
+        }
+        loadToast = new LoadToast(this);
         list = (ListView) findViewById(R.id.list);
-        adapter = new MyAdapter(getApplicationContext(), items);
+        adapter = new AttendentAdapter(getApplicationContext(), items,loadToast);
         list.setAdapter(adapter);
-        Accept=(Button)findViewById(R.id.accept);
-        Reject=(Button)findViewById(R.id.reject);
         personalData =new PersonalData(this);
         fetchData();
     }
     public void fetchData() {
-        Log.v("check","123");
         items.clear();
-      //  loadToast.setText("Loading");
-       // loadToast.show();
+        loadToast.setText("Loading");
+        loadToast.show();
 
         Log.d("check", "12345");
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
@@ -63,7 +62,7 @@ public class AttendantActivity extends AppCompatActivity {
                 try {
                     Log.d("JSON", response.toString());
                     if(response.getString("status").equals("DATABASE FETCHED")) {
-                        //loadToast.success();
+                        loadToast.success();
                         JSONArray array = response.getJSONArray("data");
                         if(array.length()==1)
                         {
@@ -100,12 +99,9 @@ public class AttendantActivity extends AppCompatActivity {
                             items.add(bean);
                             adapter.notifyDataSetChanged();
                         }
-                    }
-                    else
-                    {
-                       // loadToast.error();
+                    }else {
+                        loadToast.error();
                         Toast.makeText(getApplicationContext(),"No Applications", Toast.LENGTH_SHORT).show();
-                        onBackPressed();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -115,7 +111,7 @@ public class AttendantActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               // loadToast.error();
+                loadToast.error();
                 Toast.makeText(getApplicationContext(), "No Connection", Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }

@@ -114,10 +114,6 @@ public class WardenAdapter extends BaseAdapter {
                         try {
                             Log.d("Check",jsonObject.toString());
                             String status = jsonObject.getString("status");
-
-                            if (status.equals("LOGIN")) {
-                                //  loadToast.success();
-                            }
                               /*  else
                                  {
                                    loadToast.error();

@@ -31,7 +31,7 @@
         <activity
             android:name=".WatchmanActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".MyAdapter" />
+        <activity android:name=".AttendentAdapter" />
         <activity android:name=".Application" />
         <activity android:name=".ShowApplication" />
         <activity android:name=".PersonalData" />
