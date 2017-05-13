@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+
+    tools:context="com.example.ishita.administrativeapp.ShowApplication">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OUTPASS APPLICATION"
+            android:layout_marginLeft="90dp"
+            android:textSize="@dimen/text_size"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/cardview_dark_background"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/bottom_margin">
+            <TextView
+                android:id="@+id/display_id"
+                android:hint="Id: "
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_size"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/show_id"
+                tools:text="23"
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/bottom_margin">
+            <TextView
+                android:id="@+id/display_first_name"
+                android:hint="First Name:  "
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/show_first_name"
+                tools:text=""
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/bottom_margin">
+            <TextView
+                android:id="@+id/display_last_name"
+                android:hint="Last Name:  "
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/show_last_name"
+                tools:text="Thakur"
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/bottom_margin">
+            <TextView
+                android:id="@+id/display_hostel"
+                android:hint="Hostel:  "
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/show_hostel"
+                tools:text="PGH"
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/bottom_margin">
+            <TextView
+                android:id="@+id/display_room_no"
+                android:hint="Room No:  "
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/show_room_no"
+                tools:text="B104"
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/bottom_margin">
+            <TextView
+                android:id="@+id/display_roll_no"
+                android:hint="Roll No.:  "
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/show_roll_no"
+                tools:text="13424"
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/bottom_margin">
+            <TextView
+                android:id="@+id/display_department"
+                android:hint="Department:  "
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/show_department"
+                tools:text="CSE"
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/bottom_margin">
+            <TextView
+                android:id="@+id/display_semester"
+                android:hint="Semester:  "
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/show_semester"
+                tools:text="8:00"
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/bottom_margin">
+            <TextView
+                android:id="@+id/display_departure_date"
+                android:hint="Departure Date:  "
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/show_departure_date"
+                tools:text="19-03-2016"
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/bottom_margin">
+            <TextView
+                android:id="@+id/display_arrival_date"
+                android:hint="Arrival Date:  "
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/show_arrival_date"
+                tools:text="29-03-2016"
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/bottom_margin">
+            <TextView
+                android:id="@+id/display_departure_time"
+                android:hint="Departure Time:  "
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/show_departure_time"
+                tools:text="8:00"
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/bottom_margin">
+            <TextView
+                android:id="@+id/display_arrival_time"
+                android:hint="Arrival Time:  "
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/show_arrival_time"
+                tools:text="6:00"
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/bottom_margin">
+            <TextView
+                android:id="@+id/display_place"
+                android:hint="Place:  "
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/show_place"
+                android:textSize="@dimen/text_size"
+                tools:text="Kullu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/bottom_margin">
+            <TextView
+                android:id="@+id/display_purpose"
+                android:hint="Purpose:  "
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/show_purpose"
+                android:textSize="@dimen/text_size"
+                tools:text="visiting home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/bottom_margin">
+            <TextView
+                android:id="@+id/display_phone_no"
+                android:hint="Phone No.: "
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/show_phone_no"
+                tools:text="987654567"
+                android:textSize="@dimen/text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/bottom_margin">
+            <TextView
+                android:id="@+id/display_phone_no_parent"
+                android:hint="Phone No. of Parent/Guardian:  "
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_size"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/show_phone_no_parent"
+                tools:text="987654678"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_size"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+
