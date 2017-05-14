@@ -47,7 +47,7 @@ public class Splash extends Activity {
             }else if(personalData.getRole().equals(WARDEN)){
                 mainIntent = new Intent(Splash.this, WardenActivity.class);
             }else{
-                mainIntent = new Intent(Splash.this, WatchmanActivity.class);
+                mainIntent = new Intent(Splash.this, WatchmanSearchActivity.class);
             }
         }else{
             mainIntent = new Intent(Splash.this, MainActivity.class);
