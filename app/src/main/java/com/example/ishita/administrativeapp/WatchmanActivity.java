@@ -133,6 +133,7 @@ public class WatchmanActivity extends AppCompatActivity implements NavigationVie
                             bean.setPhoneNo((String) ob.get("purpose"));
                             bean.setParentPhoneNo((String) ob.get("phone_parent"));
                             bean.setHostel((String) ob.get("hostel"));
+                            bean.setStatus((String)ob.get("status"));
 
                             Log.d("Received", bean.toString());
                             items.add(bean);

@@ -165,4 +165,14 @@ public class Application implements Serializable {
     private String Parent_Phone_No;
     private String Department;
     private String Semester;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    private String status;
 }
