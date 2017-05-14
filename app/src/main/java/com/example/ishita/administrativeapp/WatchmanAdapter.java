@@ -83,6 +83,12 @@ public class WatchmanAdapter extends BaseAdapter{
         last_name.setText(" " + items.get(position).getLastName());
         roll_no.setText(" " + items.get(position).getRollNo());
 
+
+        if(items.get(position).getStatus().equals("2")){
+            in.setEnabled(false);
+            in.setText("Outside");
+        }
+
         CardView card = (CardView) row.findViewById(R.id.list_card);
 
         card.setOnClickListener(new View.OnClickListener() {

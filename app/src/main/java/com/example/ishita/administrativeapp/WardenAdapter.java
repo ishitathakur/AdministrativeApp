@@ -80,10 +80,6 @@ public class WardenAdapter extends BaseAdapter {
         last_name.setText(" " + items.get(position).getLastName());
         roll_no.setText(" " + items.get(position).getRollNo());
 
-        if(items.get(position).getStatus().equals("2")){
-            accept.setEnabled(false);
-            accept.setText("Accepted");
-        }
 
         CardView card = (CardView) row.findViewById(R.id.list_card);
 
