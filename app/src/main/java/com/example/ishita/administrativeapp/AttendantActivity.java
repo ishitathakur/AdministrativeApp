@@ -46,10 +46,10 @@ public class AttendantActivity extends AppCompatActivity implements NavigationVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_attendant);
+        setContentView(R.layout.nav_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-         // setSupportActionBar(toolbar);
-         //   toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
 
         loadToast=new LoadToast(this);
         loadToast.setTranslationY(150);
@@ -68,12 +68,12 @@ public class AttendantActivity extends AppCompatActivity implements NavigationVi
         adapter = new AttendentAdapter(getApplicationContext(), items,loadToast);
         list.setAdapter(adapter);
         personalData =new PersonalData(this);
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-        //drawer.setDrawerListener(toggle);
-        //toggle.syncState();
-        //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        //navigationView.setNavigationItemSelectedListener(this);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
         fetchData();
     }
 

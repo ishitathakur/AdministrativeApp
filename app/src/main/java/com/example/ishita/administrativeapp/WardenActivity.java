@@ -1,9 +1,18 @@
 package com.example.ishita.administrativeapp;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -27,12 +36,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WardenActivity extends AppCompatActivity {
+public class WardenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     WardenAdapter adapter;
     ListView list;
-    Button Accept;
-    Button Reject;
     SwipeRefreshLayout mSwipeRefreshLayout;
     PersonalData personalData;
     private final String GET_URL="https://eoutpass.herokuapp.com/unchecked_hw";
@@ -41,7 +48,10 @@ public class WardenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_attendant);
+        setContentView(R.layout.nav_drawer);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
         list = (ListView) findViewById(R.id.list);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -56,6 +66,12 @@ public class WardenActivity extends AppCompatActivity {
         adapter = new WardenAdapter(getApplicationContext(), items,loadToast);
         list.setAdapter(adapter);
         personalData =new PersonalData(this);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
         fetchData();
     }
 
@@ -146,6 +162,82 @@ public class WardenActivity extends AppCompatActivity {
 //
         req.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(req);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu){
+        getMenuInflater().inflate(R.menu.home,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id= item.getItemId();
+        if(id==R.id.action_logout){
+
+            personalData.SaveData(false);
+            Intent launch_logout=new Intent(WardenActivity.this,MainActivity.class);
+            launch_logout.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            launch_logout.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(launch_logout);
+            finish();
+
+        }/*else if(id==R.id.password) {
+            Intent in = new Intent(getApplicationContext(), ChangePassword.class);
+            startActivity(in);
+
+        }*/
+        return true;
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item)
+    {
+        int id= item.getItemId();
+        if(id==R.id.profile){
+           /* Intent launch_profile= new Intent(getApplicationContext(),Profile.class);
+            launch_profile.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            launch_profile.putExtra("EXIT",true);
+            startActivity(launch_profile);*/
+        } else if(id==R.id.about){
+          /*  AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(String.format("%1$s", getString(R.string.app_name)));
+            builder.setMessage(getResources().getText(R.string.about_text));
+            builder.setPositiveButton("OK", null);
+            builder.setIcon(R.mipmap.ic_launcher);
+            AlertDialog welcomeAlert = builder.create();
+            welcomeAlert.show();
+            ((TextView) welcomeAlert.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());*/
+        }else if(id==R.id.contributors){
+           /* AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(String.format("%1$s", getString(R.string.contributors)));
+            builder.setMessage(getResources().getText(R.string.contributors_text));
+            builder.setPositiveButton("OK", null);
+            //builder.setIcon(R.mipmap.nimbus_icon);
+            AlertDialog welcomeAlert = builder.create();
+            welcomeAlert.show();
+            ((TextView) welcomeAlert.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());*/
+        }else if(id==R.id.bug){
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            String uriText = "mailto:" + Uri.encode("ishitathakur@gmail.com") + "?subject=" +
+                    Uri.encode("Reporting A Bug/Feedback") + "&body=" + Uri.encode("Hello, Ishita \nI want to report a bug/give feedback corresponding to the app EOutPass.\n.....\n\n-Your name");
+
+            Uri uri = Uri.parse(uriText);
+            intent.setData(uri);
+            startActivity(Intent.createChooser(intent, "Send Email"));
+        }else if(id==R.id.licenses){
+          /*  AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(String.format("%1$s", getString(R.string.open_source_licenses)));
+            builder.setMessage(getResources().getText(R.string.licenses_text));
+            builder.setPositiveButton("OK", null);
+            //builder.setIcon(R.mipmap.nimbus_icon);
+            AlertDialog welcomeAlert = builder.create();
+            welcomeAlert.show();
+            ((TextView) welcomeAlert.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());*/
+        }
+        return true;
+
     }
 }
 

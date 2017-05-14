@@ -70,7 +70,7 @@ public class WardenAdapter extends BaseAdapter {
         }
         TextView first_name = (TextView) row.findViewById(R.id.first_name);
         TextView last_name = (TextView) row.findViewById(R.id.last_name);
-        TextView roll_no = (TextView) row.findViewById(R.id.last_name);
+        TextView roll_no = (TextView) row.findViewById(R.id.roll_no);
         TextView id = (TextView) row.findViewById(R.id.item_id);
         final Button accept=(Button)row.findViewById(R.id.accept);
         final Button reject=(Button)row.findViewById(R.id.reject);
@@ -78,7 +78,7 @@ public class WardenAdapter extends BaseAdapter {
         id.setText("" + items.get(position).getId());
         first_name.setText("" + items.get(position).getFirstName());
         last_name.setText(" " + items.get(position).getLastName());
-        roll_no.setText(" " + items.get(position).getLastName());
+        roll_no.setText(" " + items.get(position).getRollNo());
 
         CardView card = (CardView) row.findViewById(R.id.list_card);
 
