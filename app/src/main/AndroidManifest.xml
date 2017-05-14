@@ -14,28 +14,32 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".MainActivity">
+        </activity>
+        <activity
+            android:name=".WardenActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AttendantActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".WatchmanActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ShowApplication" />
+        <activity android:name=".WatchmanSearchActivity" />
+        <activity
+            android:name=".Splash"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".WardenActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".AttendantActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".WatchmanActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".AttendentAdapter" />
-        <activity android:name=".Application" />
-        <activity android:name=".ShowApplication" />
-        <activity android:name=".PersonalData" />
-        <activity android:name=".WatchmanSearchActivity"></activity>
     </application>
 
 </manifest>

@@ -93,10 +93,13 @@ public class MainActivity extends AppCompatActivity {
                                     personalData.SaveData(true);
                                     Intent i = null;
                                     if(UserId.equals("10001") || UserId.equals("10002")){
+                                        personalData.saveRole(Splash.ATTENDENT);
                                         i = new Intent(getApplicationContext(), AttendantActivity.class);
                                     }else if (UserId.equals("00001") || UserId.equals("00002")){
+                                        personalData.saveRole(Splash.WARDEN);
                                         i = new Intent(getApplicationContext(), WardenActivity.class);
                                     }else{
+                                        personalData.saveRole(Splash.WATCHMAN);
                                         i = new Intent(getApplicationContext(), WatchmanSearchActivity.class);
                                     }
                                     startActivity(i);

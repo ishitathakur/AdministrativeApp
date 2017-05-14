@@ -8,6 +8,7 @@ public class PersonalData {
     private Context context;
     private SharedPreferences.Editor editor=null;
     private final String STATUS ="STATUS";
+    private final String ROLE = "ROLE";
 
     public PersonalData(Context context)
     {
@@ -29,6 +30,13 @@ public class PersonalData {
     {
         editor.putBoolean(STATUS, status);
         editor.commit();
+    }
+    public void saveRole(String role){
+        editor.putString(ROLE, role);
+        editor.commit();
+    }
+    public String getRole(){
+        return getSharedPreferences().getString(ROLE,"NO_ROLE");
     }
     public boolean getStatus()
     {
